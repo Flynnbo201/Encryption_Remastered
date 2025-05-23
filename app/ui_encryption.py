@@ -1,6 +1,7 @@
 import wx
 from core.crypto import generate_key, encrypt_data, decrypt_data
 
+
 class EncryptionApp(wx.Frame):
     def __init__(self):
         super().__init__(parent=None, title="ENCRYPTION WINDOW", size=(500, 400))
@@ -40,8 +41,15 @@ class EncryptionApp(wx.Frame):
         panel_decrypt.SetSizer(vbox_dec)
         notebook.AddPage(encryption_panel, 'Encrypt data')
         notebook.AddPage(panel_decrypt, 'Decrypt data')
+
+        self.Bind(wx.EVT_CLOSE, self.close_app)
         
         self.Show()
+
+    def close_app(self, event):
+        from core.ui_manager import appchange
+        self.login = appchange.login_change(self)
+        print('encryption window closed')
 
 
     def encrypt_text(self, event):
@@ -61,13 +69,3 @@ class EncryptionApp(wx.Frame):
             self.decrypt_output.SetValue(f"Decrypted:\n{decrypted.decode()}")
         except Exception as e:
             self.decrypt_output.SetValue(f"Error: {str(e)}")
-
-        # try:
-        #     self.key2 = self.decrypt_key_input.GetValue()
-        #     token = self.text_input.GetValue()
-        #     decrypted = decrypt_data(token, self.key2)
-        #     self.decrypt_output.SetValue(f"Decrypted:\n{decrypted}\n\nKey:\n{self.key}")
-        # except Exception as e:
-        #     self.result_output.SetValue(f"Error: {str(e)}")
-        #     self.decrypt_output.SetValue(f"Error: {str(e)}")
-        #     print(e)

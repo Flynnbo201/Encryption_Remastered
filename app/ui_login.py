@@ -2,8 +2,8 @@ import wx
 import time
 from threading import Thread
 from core.accounts import load_accounts, verify_password
-from app.ui_admin import MyFrame3
-from app.ui_encryption import EncryptionApp
+
+
 
 class MyFrame(wx.Frame):
     def __init__(self):
@@ -47,12 +47,13 @@ class MyFrame(wx.Frame):
                 break
 
     def close_app(self, event):
+        from core.ui_manager import appchange
         username = self.input1.GetValue()
         password = self.input2.GetValue()
         if self.success and username in self.admin_account and self.admin_account[username] == password:
-            self.admin = MyFrame3()
+            self.admin = appchange.admin_change(self)
         elif self.success:
-            self.user = EncryptionApp()
+            self.user = appchange.encryption_change(self)
         else:
             wx.GetApp().ExitMainLoop()
         event.Skip()
