@@ -2,6 +2,7 @@ import wx
 import time
 from threading import Thread
 from core.accounts import load_accounts, verify_password
+from config.paths import identify_admin
 
 
 
@@ -69,9 +70,12 @@ class MyFrame(wx.Frame):
         if yes:
             self.status.SetLabel('success')
             self.success = True
-        elif username in self.admin_account and self.admin_account[username] == password:
+        elif username in self.admin_account and self.admin_account[username] == password and identify_admin:
             self.status.SetLabel('success')
             self.success = True
         else:
-            self.status.SetLabel('invalid username or password')
+            if not identify_admin:
+                self.status.SetLabel('Machine not compatible')
+            else:
+                self.status.SetLabel('invalid username or password')
             self.success = False

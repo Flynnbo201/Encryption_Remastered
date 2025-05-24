@@ -1,5 +1,5 @@
 import wx
-from core.accounts import load_accounts, save_accounts, hash_password
+from core.accounts import load_accounts, save_accounts, hash_password, load_accounts_local
 
 class MyFrame3(wx.Frame):
     def __init__(self):
@@ -21,8 +21,28 @@ class MyFrame3(wx.Frame):
         self.add_button.Bind(wx.EVT_BUTTON, self.add_account)
         self.remove_button.Bind(wx.EVT_BUTTON, self.remove_account)
 
+        self.Bind(wx.EVT_CLOSE, self.close_app)
+
         self.Show()
 
+    def close_app(self, event):
+        import time
+        from core.ui_manager import appchange
+        self.login = appchange.login_change(self)
+        print('admin window closed')
+
+        
+
+    def load(self, event, web_or_local):
+        from core.accounts import load_accounts, load_accounts_local
+
+        if web_or_local:
+            loaded_local = str(load_accounts)
+        else:
+            loaded_local = str(load_accounts_local())
+        print(loaded_local)
+        self.loadotp.SetValue(loaded_local)
+    
     def add_account(self, event):
         username = self.user_input.GetValue()
         password = self.pass_input.GetValue()

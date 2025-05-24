@@ -18,6 +18,7 @@ class appchange():
     def admin_change(self):
         self.app_adm = MyFrame3()
     def login_change(self):
+        self.Destroy()
         self.app_log = MyFrame()
     def encryption_change(self):
         self.app_enc = EncryptionApp()
